@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="commata::basic_stored_value&lt;char,*&gt;">
+    <AlternativeType Name="commata::basic_stored_value&lt;char const,*&gt;" />
+    <DisplayString>{begin_,s}</DisplayString>
+    <StringView>begin_,s</StringView>
+  </Type>
+  <Type Name="commata::basic_stored_value&lt;wchar_t,*&gt;">
+    <AlternativeType Name="commata::basic_stored_value&lt;wchar_t const,*&gt;" />
+    <DisplayString>{begin_,su}</DisplayString>
+    <StringView>begin_,su</StringView>
+  </Type>
+  <Type Name="commata::detail::stored::store_node&lt;*&gt;">
+    <DisplayString>{{ size={end_ - buffer_} hwl={hwl_ - buffer_} }}</DisplayString>
+    <Expand>
+      <ExpandedItem>*(commata::detail::stored::store_buffer&lt;char&gt;*)this,nd</ExpandedItem>
+    </Expand>
+  </Type>
+  <Type Name="commata::detail::stored::table_store&lt;*,*&gt;">
+    <DisplayString>{{ buffers: size={buffers_size_} }}</DisplayString>
+    <Expand>
+      <Synthetic Name="[buffers]" Condition="buffers_ != 0">
+        <DisplayString>{{ size={buffers_size_} }}</DisplayString>
+        <Expand>
+          <Item Name="[buffers_size]">buffers_size_</Item>
+          <LinkedListItems>
+            <Size>buffers_size_</Size>
+            <HeadPointer>buffers_</HeadPointer>
+            <NextPointer>next</NextPointer>
+            <ValueNode>*this</ValueNode>
+          </LinkedListItems>
+        </Expand>
+      </Synthetic>
+      <Synthetic Name="[buffers]" Condition="buffers_ == 0">
+        <DisplayString>empty</DisplayString>
+      </Synthetic>
+      <Synthetic Name="[cleared buffers]" Condition="buffers_cleared_ != 0">
+        <Expand>
+          <LinkedListItems>
+            <HeadPointer>buffers_cleared_</HeadPointer>
+            <NextPointer>next</NextPointer>
+            <ValueNode>*this</ValueNode>
+          </LinkedListItems>
+        </Expand>
+      </Synthetic>
+      <Synthetic Name="[cleared buffers]" Condition="buffers_cleared_ == 0">
+        <DisplayString>empty</DisplayString>
+      </Synthetic>
+    </Expand>
+  </Type>
+  <Type Name="commata::replace_if_skipped&lt;*&gt;">
+    <DisplayString Condition="store_.mode_ == commata::detail::scanner::replace_mode::fail">fail</DisplayString>
+    <DisplayString Condition="store_.mode_ == commata::detail::scanner::replace_mode::ignore">ignore</DisplayString>
+    <DisplayString>copy: {*((value_type*)(&amp;store_.value_))}</DisplayString>
+    <Expand>
+      <Item Name="[value]" Condition="store_.mode_ == commata::detail::scanner::replace_mode::replace">*((value_type*)(&amp;store_.value_))</Item>
+    </Expand>
+  </Type>
+  <Type Name="commata::replace_if_conversion_failed&lt;*&gt;">
+    <DisplayString>{{size = {size}}}</DisplayString>
+    <Expand>
+      <Synthetic Name="[Empty]">
+        <DisplayString Condition="(store_.has_ &amp; 1) != 0">copy: {*((value_type*) (store_.replacements_ + 0))}</DisplayString>
+        <DisplayString Condition="(store_.skips_ &amp; 1) != 0">ignore</DisplayString>
+        <DisplayString>fail</DisplayString>
+        <Expand>
+          <Item Name="[value]" Condition="(store_.has_ &amp; 1) != 0">*((value_type*) (store_.replacements_ + 0))</Item>
+        </Expand>
+      </Synthetic>
+      <Synthetic Name="[InvalidFormat]">
+        <DisplayString Condition="(store_.has_ &amp; 2) != 0">copy: {*((value_type*) (store_.replacements_ + 1))}</DisplayString>
+        <DisplayString Condition="(store_.skips_ &amp; 2) != 0">ignore</DisplayString>
+        <DisplayString>fail</DisplayString>
+        <Expand>
+          <Item Name="[value]" Condition="(store_.has_ &amp; 2) != 0">*((value_type*) (store_.replacements_ + 1))</Item>
+        </Expand>
+      </Synthetic>
+      <Synthetic Name="[AboveUpperLimit]">
+        <DisplayString Condition="(store_.has_ &amp; 4) != 0">copy: {*((value_type*) (store_.replacements_ + 2))}</DisplayString>
+        <DisplayString Condition="(store_.skips_ &amp; 4) != 0">ignore</DisplayString>
+        <DisplayString>fail</DisplayString>
+        <Expand>
+          <Item Name="[value]" Condition="(store_.has_ &amp; 4) != 0">*((value_type*) (store_.replacements_ + 2))</Item>
+        </Expand>
+      </Synthetic>
+      <Synthetic Name="[BelowLowerLimit]" Condition="size > 3">
+        <DisplayString Condition="(store_.has_ &amp; 8) != 0">copy: {*((value_type*) (store_.replacements_ + 3))}</DisplayString>
+        <DisplayString Condition="(store_.skips_ &amp; 8) != 0">ignore</DisplayString>
+        <DisplayString>fail</DisplayString>
+        <Expand>
+          <Item Name="[value]" Condition="(store_.has_ &amp; 8) != 0">*((value_type*) (store_.replacements_ + 3))</Item>
+        </Expand>
+      </Synthetic>
+      <Synthetic Name="[Underflow]" Condition="size > 4">
+        <DisplayString Condition="(store_.has_ &amp; 16) != 0">copy: {*((value_type*) (store_.replacements_ + 4))}</DisplayString>
+        <DisplayString Condition="(store_.skips_ &amp; 16) != 0">ignore</DisplayString>
+        <DisplayString>fail</DisplayString>
+        <Expand>
+          <Item Name="[value]" Condition="(store_.has_ &amp; 16) != 0">*((value_type*) (store_.replacements_ + 4))</Item>
+        </Expand>
+      </Synthetic>
+    </Expand>
+  </Type>
+</AutoVisualizer>
