@@ -31,7 +31,7 @@ df <- gibasa::tokenize(
   )
 )
 nrow(df)
-#> [1] 232195
+#> [1] 228034
 
 microbenchmark::microbenchmark(
   current = commatatest::prettify(df, col_select = c("POS1", "Yomi1")),
@@ -42,9 +42,9 @@ microbenchmark::microbenchmark(
 )
 #> Unit: milliseconds
 #>                 expr      min       lq     mean   median       uq      max
-#>              current 241.2317 244.9016 249.1675 248.1399 251.4151 260.1156
-#>  current_lim_threads 257.3847 262.3324 271.0654 263.4570 272.6364 320.2063
-#>              commata 100.1397 104.3287 115.0418 107.6954 116.3270 164.2477
+#>              current 284.0976 288.3105 307.6061 294.8477 342.9661 349.0926
+#>  current_lim_threads 302.1819 307.4640 310.8363 309.6352 314.3722 319.2559
+#>              commata 144.6344 147.0566 150.2238 148.0365 154.0453 160.8546
 #>  neval
 #>     10
 #>     10

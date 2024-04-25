@@ -30,7 +30,7 @@ prettify2 <- function(tbl,
 
   features <-
     commataTest(
-      stringi::stri_c(dplyr::pull(tbl, {{ col }}), collapse = "\n"),
+      paste0(dplyr::pull(tbl, {{ col }}), collapse = "\n"),
       col_select,
       nrow(tbl)
     ) %>%
